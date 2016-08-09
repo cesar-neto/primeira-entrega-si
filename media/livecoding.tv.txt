@@ -1,0 +1,8 @@
+LIVECODING> rtmp://usmedia3.livecoding.tv:1935/livecodingtv
+
+CHAVE> caio?t=hafxszk9taty
+
+
+YOUTUBE:  rtmp://a.rtmp.youtube.com/live2
+
+CHAVE:  

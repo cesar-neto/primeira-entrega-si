@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dropbox</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css'>
+    <style>
+        body{
+            padding: 20px 0px 0px 0px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+    	<div class="col-md-4 col-md-offset-4">
+    		<div class="panel panel-default">
+			  	<div class="panel-heading">
+			    	<h3 class="panel-title">Dropbox</h3>
+			 	</div>
+			  	<div class="panel-body">
+			    	<form method='post' action='/login'>
+			    	    {% csrf_token %}
+                    <fieldset>
+			    	  	<div class="form-group">
+			    		    <input class="form-control" placeholder="yourmail@example.com" name="email" type="email" required>
+			    		</div>
+			    		<div class="form-group">
+			    			<input class="form-control" placeholder="Password" name="senha" type="password" required>
+			    		</div>
+			    		<div class="checkbox">
+			    	    	<!--<label>-->
+			    	    	<!--	<input name="remember" type="checkbox" value="Remember Me"> Remember Me-->
+			    	    	<!--</label>-->
+			    	    </div>
+			    		<button class="btn btn-lg btn-success btn-block" type="submit">Login</button>
+			    	</fieldset>
+			      	</form>
+                      <hr/>
+                    <center><h4>OU</h4></center>
+                    <a href='/registro' class="btn btn-lg btn-default btn-block">Registrar</a>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+			  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+			  crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <script>
+                $(document).ready(function () {
+                    swal("Erro", "{{ message }}", "error")
+                });
+            </script>
+        {% else %}
+            <script>
+                $(document).ready(function () {
+                    swal("Sucesso", "{{ message }}", "success")
+                });
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,5 @@
+<p>[&#39;</p>
+
+<p>[&#39;coverage==4.0.2\\n&#39;, &#39;django==1.9.1\\n&#39;, &#39;django-pipeline==1.6.4\\n&#39;, &#39;flake8==2.5.0\\n&#39;, &#39;pep8==1.6.2\\n&#39;, &#39;pep8-naming==0.3.3\\n&#39;, &#39;pyflakes==1.0.0\\n&#39;, &#39;pylint==1.5.5\\n&#39;, &#39;pylint-django==0.7.1\\n&#39;, &#39;requests==2.9.1\\n&#39;, &#39;django-simple-captcha\\n&#39;, &#39;unittest-xml-reporting\\n&#39;, &#39;fabric\\n&#39;, &#39;jsmin\\n&#39;, &#39;django-softhyphen\\n&#39;, <em>&#39;tblib\\n&#39;</em>, <strong>&#39;python-gettext\\n</strong>&#39;, &#39;iso8601==0.1.11&#39;]</p>
+
+<p>\r\n&#39;]</p>

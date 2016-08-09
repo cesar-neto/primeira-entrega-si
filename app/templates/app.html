@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class='row'>
+    {% for pasta in usuario.pastas.all %}
+        {% if pasta.status %}
+            <div class='col-xs-6 col-sm-4 col-md-3'>
+                <div class="panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                      <a href='/pasta/{{ pasta.id }}'>{{ pasta.titulo }}</a>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                        <label style='font-size:55px;'><a href='/pasta/{{ pasta.id }}'>{{ pasta.arquivo_set.all|length }}</a></label>
+                    </div>
+                    
+                  </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+        <div class='col-xs-6 col-sm-4 col-md-3'>
+            <div class="panel-group" style='border-style: dotted;'>
+              <div class="panel panel-default">
+                <div class="panel-body text-center"><a href='/nova-pasta'>Criar Nova Pasta</a></div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <label style='font-size:55px;'><a href='/nova-pasta'><span class='fa fa-1x fa-plus'></span></a></label>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class='col-xs-6 col-sm-4 col-md-3'>
+            <div class="panel-group" style='border-style: dotted;'>
+              <div class="panel panel-default">
+                <div class="panel-body text-center"><a href='/novo-arquivo'>Criar Novo Arquivo</a></div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <label style='font-size:55px;'><a href='/novo-arquivo'><span class='fa fa-1x fa-plus' style='color: red;'></span></a></label>
+                </div>
+              </div>
+            </div>
+        </div>
+</div>
+<br/>
+<hr/>
+<div class='row'>
+    {% for arq in usuario.arquivos.all %}
+        {% if not arq.pasta and arq.status %}
+            <div class='col-xs-6 col-sm-4 col-md-3'>
+                <div class="panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-body text-center">{{ arq.nome }}</div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                        <label style='font-size:55px;'><a href='/edit-arquivo/{{ arq.id }}'><span class='fa fa-1x fa-file-text-o'></span></a></label>
+                    </div>
+                    <div class="panel-footer">
+                        <div class='row'>
+                            <div class='col-xs-3'>
+                                <!--<a href='/media/{{arq.arquivo}}' download='/media/{{arq.arquivo}}'><span class='fa fa-2x fa-download'></span></a>-->
+                            </div>
+                            <div class='col-xs-3'>
+                                <a href='/edit-arquivo/{{ arq.id }}'><span class='fa fa-2x fa-edit'></span></a>
+                            </div>
+                            <div class='col-xs-3'>
+                                <!--<a data-toggle="modal" data-target="#modal{{arq.id}}"><span class='fa fa-2x fa-share-alt'></span></a>-->
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

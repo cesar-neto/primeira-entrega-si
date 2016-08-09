@@ -1,0 +1,13 @@
+/* global $*/
+        var url = 'http://www.mapquestapi.com/geocoding/v1/batch?key=mgB3k6wgGMQXI6AVMMRmxDDGbbBmDCi6&location=39.702696,-105.01316&location=32.781068,-96.800451&location=-7.124069300000002,-34.8385505';
+        $.ajax({
+            type: "GET",
+            url: url,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': true
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        });

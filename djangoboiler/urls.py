@@ -33,4 +33,7 @@ urlpatterns = [
     url(r'^edit-arquivo/(?P<id>[0-9]+)', views.edit_arquivo, name='editarquivo'),
     url(r'^nova-pasta', views.nova_pasta, name='novapasta'),
     url(r'^novo-arquivo', views.create_arquivo, name='novoarquivo'),
+    url(r'^lixeira', views.lixeira, name='lixeira'),
+    url(r'^remove-arquivo/(?P<id>[0-9]+)', views.remove_arquivo, name='removearquivo'),
+    url(r'^remove-pasta/(?P<id>[0-9]+)', views.remove_pasta, name='removepasta'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

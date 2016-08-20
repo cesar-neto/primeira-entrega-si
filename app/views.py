@@ -142,6 +142,40 @@ def nova_pasta(request):
             messages.error(request, 'Nao foi possivel criar a pasta')
             return render_to_response('nova_pasta.html', {}, context_instance=RequestContext(request))
 
+def remove_pasta(request, id):
+    try:
+        pasta = Pasta.objects.get(id=id)
+        pasta.status = False
+        pasta.save()
+        for arq in pasta.arquivo_set.all():
+            arq.status = False
+            arq.save()
+        messages.success(request, 'Pasta removida com sucesso')
+    except:
+        messages.error(request, 'Nao foi possivel remover a pasta')
+    return redirect('/app')
+
+def lixeira(request):
+    usuario = Usuario.objects.get(email=request.session['email'])
+    return render_to_response('lixeira.html', {'usuario': usuario}, context_instance=RequestContext(request))
+
+
+def remove_arquivo(request, id):
+    try:
+        usuario = Usuario.objects.get(email=request.session['email'])
+        arquivo = Arquivo.objects.get(id=id)
+        pasta = arquivo.pasta
+        arquivo.status = False
+        arquivo.save()
+        messages.success(request, 'Arquivo removido com sucesso')
+        if pasta:
+            return redirect('/pasta/' + str(pasta.id))
+        else:
+            return redirect('/')
+    except:
+        messages.error(request, 'Nao foi possivel remover o arquivo')
+        return redirect('/')
+
 
 def logout(request):
     request.session.clear()

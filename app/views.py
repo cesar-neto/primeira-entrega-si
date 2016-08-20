@@ -25,6 +25,11 @@ def registro(request):
         nome = request.POST['nome']
         email = request.POST['email']
         senha = request.POST['senha']
+        confirmacao_senha = request.POST['confirmacao_senha']
+
+        if senha != confirmacao_senha:
+            messages.error(request, 'Senhas nao coincidem')
+            return render_to_response('registro.html', {}, context_instance=RequestContext(request))
 
         try:
             us_temp = Usuario.objects.get(email=email)

@@ -177,6 +177,7 @@ def remove_arquivo(request, id):
         return redirect('/')
 
 
+
 def logout(request):
     request.session.clear()
     return redirect('/')

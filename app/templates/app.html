@@ -9,13 +9,14 @@
                   <div class="panel panel-default">
                     <div class="panel-body text-center">
                       <a href='/pasta/{{ pasta.id }}'>{{ pasta.titulo }}</a>
+                        <a href='/remove-pasta/{{ pasta.id }}' class='pull-right'><span class='fa fa-1x fa-trash-o'></span></a>
                     </div>
                   </div>
                   <div class="panel panel-default">
                     <div class="panel-body text-center">
                         <label style='font-size:55px;'><a href='/pasta/{{ pasta.id }}'>{{ pasta.arquivo_set.all|length }}</a></label>
                     </div>
-                    
+
                   </div>
                 </div>
             </div>

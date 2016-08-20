@@ -20,7 +20,9 @@
 		    	  	    <select class='form-control' name='pasta'>
 		    	  	        <option disabled selected value> -- </option>
 		    	  	        {% for pasta in usuario.pastas.all %}
-		    	  	        	<option value='{{pasta.id}}'>{{ pasta.titulo }}</option>
+                                {% if pasta.status %}
+		    	  	        	    <option value='{{pasta.id}}'>{{ pasta.titulo }}</option>
+                                {% endif %}
 		    	  	        {% endfor %}
 		    	  	    </select>
 		    		    </div>

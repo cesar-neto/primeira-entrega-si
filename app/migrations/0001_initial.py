@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nome', models.CharField(max_length=100)),
                 ('arquivo', models.FileField(upload_to=b'')),
-                ('tipo', models.CharField(choices=[('md', 'md'), ('txt', 'txt')], max_length=50)),
+                ('tipo', models.CharField(choices=[('txt', 'txt'),('md', 'md')], max_length=50)),
                 ('criado_em', models.DateTimeField(auto_now_add=True)),
                 ('editado_em', models.DateTimeField(auto_now=True)),
             ],

@@ -6,9 +6,6 @@ from django.template import RequestContext
 from .models import *
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.files.base import ContentFile
-from django.conf import settings
-from django.contrib.auth.models import User
-
 
 
 def index(request):
@@ -33,6 +30,7 @@ def registro(request):
             messages.error(request, 'Senhas nao coincidem')
             return render_to_response('registro.html', {}, context_instance=RequestContext(request))
 
+
         try:
             us_temp = Usuario.objects.get(email=email)
             messages.error(request, 'Email ja cadastrado')
@@ -41,10 +39,15 @@ def registro(request):
 
 
         except:
-            new_usuario = Usuario(nome=nome, email=email, senha=senha)
-            new_usuario.save()
-            messages.success(request, 'Usuario criado com sucesso')
-            return redirect('/')
+            try:
+                name_temp = Usuario.objects.get(nome=nome)
+                messages.error(request, 'Nome de usuario ja cadastrado')
+                return render_to_response('registro.html', {}, context_instance=RequestContext(request))
+            except:
+                new_usuario = Usuario(nome=nome, email=email, senha=senha)
+                new_usuario.save()
+                messages.success(request, 'Usuario criado com sucesso')
+                return redirect('/')
 
 
 def login(request):

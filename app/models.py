@@ -4,7 +4,7 @@ from django.db import models
 
 TIPOS = (
 
-    ('txt', 'amd'),
+    ('txt', 'md'),
 )
 
 class Pasta(models.Model):

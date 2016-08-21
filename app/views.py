@@ -6,6 +6,8 @@ from django.template import RequestContext
 from .models import *
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.files.base import ContentFile
+from django.conf import settings
+from django.contrib.auth.models import User
 
 
 
@@ -52,7 +54,11 @@ def login(request):
         email = request.POST['email']
         senha = request.POST['senha']
         try:
-            usuario = Usuario.objects.get(email=email)
+            if '@' in email:
+                usuario = Usuario.objects.get(email=email)
+            else:
+                usuario = Usuario.objects.get(nome=email)
+
             if senha == usuario.senha:
                 request.session['email'] = usuario.email
                 return redirect('/app')
@@ -64,7 +70,7 @@ def login(request):
             messages.error(request, 'Usuario nao cadastrado')
             return redirect('/')
             # return render_to_response('login.html', {}, context_instance=RequestContext(request))
-    
+
 
 def app(request):
     usuario = Usuario.objects.get(email=request.session['email'])

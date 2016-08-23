@@ -19,7 +19,6 @@
         </div>
           <div class="panel panel-default">
           <div class="panel-body text-center">
-
               <textarea name="content" rows="15" cols="80">
                 {% for it in content %}
                   {{ it }}
@@ -28,7 +27,7 @@
           </div>
           <div class="panel-footer">
               <div class='row'>
-                  <div class='col-xs-3'>
+                  <div class='col-xs-2'>
                       {% if arquivo.pasta %}
                         <a class='btn' href='/pasta/{{ arquivo.pasta.id }}'><span class='fa fa-2x fa-chevron-left'></span></a>
                       {% else %}
@@ -36,13 +35,20 @@
                       {% endif %}
 
                   </div>
-                  <div class='col-xs-3'>
+                  <div class='col-xs-2 col-xs-offset-1'>
+                      {% if arquivo.pasta %}
+                        <button type='submit'><span class='fa fa-2x fa-save'></span></button>
+                      {% else %}
+                        <button type='submit'><span class='fa fa-2x fa-save'></span></button>
+                      {% endif %}
+                  </div>
+                  <div class='col-xs-2'>
                       <a class='btn' href='/media/{{arquivo.arquivo}}' download='/media/{{arquivo.arquivo}}'><span class='fa fa-2x fa-download'></span></a>
                   </div>
-                  <div class='col-xs-3'>
+                  <div class='col-xs-2'>
                       <a class='btn' data-toggle="modal" data-target="#modal{{arquivo.id}}"><span class='fa fa-2x fa-share-alt'></span></a>
                   </div>
-                  <div class='col-xs-3'>
+                  <div class='col-xs-2'>
                       <a class='btn' href='/remove-arquivo/{{ arquivo.id }}'><span class='fa fa-2x fa-trash-o'></span></a>
                   </div>
               </div>

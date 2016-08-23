@@ -86,9 +86,16 @@ def view_pasta(request, id):
     return render_to_response('view_pasta.html', {'pasta': pasta}, context_instance=RequestContext(request))
 
 def view_file(request, id):
-    usuario = Usuario.objects.get(email=request.session['email'])
+
     arquivo = Arquivo.objects.get(id=id)
-    return render_to_response('view_file.html', {'arquivo': arquivo}, context_instance=RequestContext(request))
+    if request.method == 'GET':
+        file = arquivo.arquivo
+        file.open(mode='rb')
+        content = file.readlines()
+        file.close()
+        return render_to_response('view_file.html', {'arquivo': arquivo, 'content': content},
+                                  context_instance=RequestContext(request))
+
 
 
 def create_arquivo(request):
@@ -126,7 +133,7 @@ def edit_arquivo(request, id):
         file.open(mode='rb') 
         content = file.readlines()
         file.close()
-        return render_to_response('view_file.html', {'arquivo':arquivo, 'content': content}, context_instance=RequestContext(request))
+        return render_to_response('edit_file.html', {'arquivo':arquivo, 'content': content}, context_instance=RequestContext(request))
     elif request.method == 'POST':
         myfile = ContentFile(request.POST['content'])
         arquivo.arquivo.save(str(arquivo.nome)+'.'+arquivo.tipo, myfile)
@@ -135,7 +142,7 @@ def edit_arquivo(request, id):
         content = myfile.readlines()
         myfile.close()
         messages.success(request, 'Alterado com sucesso')
-        return render_to_response('view_file.html', {'arquivo':arquivo, 'content': content}, context_instance=RequestContext(request))
+        return render_to_response('edit_file.html', {'arquivo':arquivo, 'content': content}, context_instance=RequestContext(request))
         
 
 def nova_pasta(request):

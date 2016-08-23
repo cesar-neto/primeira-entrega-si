@@ -219,6 +219,8 @@ def upload_arquivo(request):
             return redirect('/')
 
 
+def share_arquivo(request):
+    pass
 
 def logout(request):
     request.session.clear()

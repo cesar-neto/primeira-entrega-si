@@ -89,7 +89,13 @@
                     <div class="panel-footer">
                         <div class='row'>
                             <div class='col-xs-3'>
+                                <a href='/media/{{arq.arquivo}}' download='/media/{{arq.arquivo}}'><span class='fa fa-2x fa-download'></span></a>
+                            </div>
+                            <div class='col-xs-3'>
                                 <a href='/edit-arquivo/{{ arq.id }}'><span class='fa fa-2x fa-edit'></span></a>
+                            </div>
+                            <div class='col-xs-3'>
+                                <a data-toggle="modal" data-target="#modal{{arq.id}}"><span class='fa fa-2x fa-share-alt'></span></a>
                             </div>
                             <div class='col-xs-3'>
                                 <a href='/remove-arquivo/{{ arq.id }}'><span class='fa fa-2x fa-trash-o'></span></a>

@@ -85,6 +85,11 @@ def view_pasta(request, id):
     pasta = Pasta.objects.get(id=id)
     return render_to_response('view_pasta.html', {'pasta': pasta}, context_instance=RequestContext(request))
 
+def view_file(request, id):
+    usuario = Usuario.objects.get(email=request.session['email'])
+    arquivo = Arquivo.objects.get(id=id)
+    return render_to_response('view_file.html', {'arquivo': arquivo}, context_instance=RequestContext(request))
+
 
 def create_arquivo(request):
     usuario = Usuario.objects.get(email=request.session['email'])

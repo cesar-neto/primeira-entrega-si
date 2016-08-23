@@ -36,4 +36,5 @@ urlpatterns = [
     url(r'^lixeira', views.lixeira, name='lixeira'),
     url(r'^remove-arquivo/(?P<id>[0-9]+)', views.remove_arquivo, name='removearquivo'),
     url(r'^remove-pasta/(?P<id>[0-9]+)', views.remove_pasta, name='removepasta'),
+    url(r'^upload-arquivo', views.upload_arquivo, name='uploadarquivo'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

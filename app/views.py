@@ -191,6 +191,34 @@ def remove_arquivo(request, id):
         return redirect('/')
 
 
+def upload_arquivo(request):
+    usuario = Usuario.objects.get(email=request.session['email'])
+    if request.method == 'GET':
+        return render_to_response('upload.html', {'usuario': usuario}, context_instance=RequestContext(request))
+    elif request.method == 'POST':
+        try:
+            nome = request.POST['nome']
+            arquivo = request.FILES['file']
+            tipo = request.POST['tipo']
+            print request.POST
+            if 'pasta' in request.POST:
+                pasta = Pasta.objects.get(id=request.POST['pasta'])
+            else:
+                pasta = None
+            arquivo = Arquivo(nome=nome, tipo=tipo, arquivo=arquivo, pasta=pasta)
+            arquivo.save()
+            usuario.arquivos.add(arquivo)
+            usuario.save()
+            messages.success(request, 'Arquivo adicionado com sucesso')
+            if pasta:
+                return redirect('/pasta/' + str(pasta.id))
+            else:
+                return redirect('/')
+        except:
+            messages.error(request, 'Nao foi possivel adicionar arquivo')
+            return redirect('/')
+
+
 
 def logout(request):
     request.session.clear()

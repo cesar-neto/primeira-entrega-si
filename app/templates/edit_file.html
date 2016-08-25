@@ -19,11 +19,18 @@
         </div>
           <div class="panel panel-default">
           <div class="panel-body text-center">
-              <textarea name="content" rows="15" cols="80">
+{% comment %}              <textarea name="content" rows="15" cols="80">
                 {% for it in content %}
                   {{ it }}
                 {% endfor %}
-              </textarea>
+              </textarea>{% endcomment %}
+              <textarea name="content" rows="15" cols="80">{% for it in content %}{{ it }}{% endfor %}</textarea>
+  <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
+
+
+          <script>
+                        CKEDITOR.replace('content');
+                    </script>
           </div>
           <div class="panel-footer">
               <div class='row'>

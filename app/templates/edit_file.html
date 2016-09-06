@@ -1,9 +1,12 @@
-{% extends "base.html" %}
 
+
+{% extends "base.html" %}
+  <meta charset="UTF-8">
 {% block content %}
   <div class='row'>
+
     <div class='col-md-12'>
-      <form method='post' action='/novo-arquivo'>{% csrf_token %}
+      <form method='post' action=''>{% csrf_token %}
         <div class="panel-group">
           <div class="panel panel-default">
           <div class="panel-body">
@@ -11,7 +14,10 @@
               <div class='col-md-4'>
                 <div class='form-group'>
                   <label>Nome do Arquivo:</label>
-                  <input class='form-control' name='nome' type='text' required/>
+                  <input class='form-control'  placeholder= {{ arquivo.nome }} name='nome' type='text' required/>
+{% comment %}
+                     <a href='/arquivo/{{ arq.id }}'>{{ arq.nome }}</a>{{ arquivo.nome }}<
+{% endcomment %}
                 </div>
               </div>
               <div class='col-md-4'>

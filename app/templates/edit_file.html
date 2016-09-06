@@ -3,27 +3,44 @@
 {% block content %}
   <div class='row'>
     <div class='col-md-12'>
-      <form method='post' action='/edit-arquivo/{{ arquivo.id }}'>{% csrf_token %}
+      <form method='post' action='/novo-arquivo'>{% csrf_token %}
         <div class="panel-group">
           <div class="panel panel-default">
-          <div class="panel-body text-center">
+          <div class="panel-body">
             <div class='row'>
-              <div class='col-md-12'>
-                Nome do Arquivo: {{ arquivo.nome }}
+              <div class='col-md-4'>
+                <div class='form-group'>
+                  <label>Nome do Arquivo:</label>
+                  <input class='form-control' name='nome' type='text' required/>
+                </div>
               </div>
-              <div class='col-md-12'>
-                Pasta: {{ arquivo.pasta.titulo }}
+              <div class='col-md-4'>
+              	<div class="form-group">
+		    	  	    <label for="">Pasta:</label>
+		    	  	    <select class='form-control' name='pasta'>
+		    	  	        <option disabled selected value> -- </option>
+		    	  	        {% for pasta in usuario.pastas.all %}
+                                {% if pasta.status %}
+		    	  	        	    <option value='{{pasta.id}}'>{{ pasta.titulo }}</option>
+                                {% endif %}
+		    	  	        {% endfor %}
+		    	  	    </select>
+		    		    </div>
+              </div>
+              <div class='col-md-4'>
+              	<div class="form-group">
+		    	  	    <label for="">Formato:</label>
+		    	  	    <select class='form-control' name='tipo' required>
+		    	  	        <option disabled selected value> -- </option>
+		    	  	        <option value='txt'>.txt</option>
+		    	  	        <option value='md'>.md</option>
+		    	  	    </select>
+		    		    </div>
               </div>
             </div>
           </div>
         </div>
-          <div class="panel panel-default">
-          <div class="panel-body text-center">
-{% comment %}              <textarea name="content" rows="15" cols="80">
-                {% for it in content %}
-                  {{ it }}
-                {% endfor %}
-              </textarea>{% endcomment %}
+
               <textarea name="content" rows="15" cols="80">{% for it in content %}{{ it }}{% endfor %}</textarea>
   <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
 

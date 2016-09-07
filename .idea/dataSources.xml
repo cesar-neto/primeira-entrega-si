@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+  <component name="DataSourceManagerImpl" format="xml" hash="1375857638">
     <data-source source="LOCAL" name="Django default" uuid="c055ded6-6b00-4623-9c34-a2c1f796f42a">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
       <remarks>$PROJECT_DIR$/djangoboiler/settings.py</remarks>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Alberto\Documents\primeira-entrega-si\db.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\victo\Documents\PyCharm Projects\primeira-entrega-si\db.sqlite3</jdbc-url>
     </data-source>
   </component>
 </project>

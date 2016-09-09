@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class='row'>
+        {% for comp in compartilhados_cmg %}
+            <div class='col-xs-6 col-sm-4 col-md-3'>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <a href='/arquivo/{{ comp.arquivo.id }}'>{{ comp.arquivo.nome }}</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <label style='font-size:55px;'><a href='/arquivo/{{ comp.arquivo.id }}'><span
+                                    class='fa fa-1x fa-file-text-o'></span></a></label>
+                        </div>
+                        <div class="panel-footer">
+                            <div class='row'>
+                                <div class='col-xs-3 col-xs-offset-3'>
+                                    {% if comp.habilitado %}
+                                        <a href='/media/{{ comp.arquivo.arquivo }}'
+                                           download='/media/{{ comp.arquivo.arquivo }}'><span
+                                                class='fa fa-2x fa-download'></span></a>
+                                    {% endif %}
+                                </div>
+                                <div class='col-xs-3'>
+                                    {% if comp.habilitado %}
+                                        <a href='/edit-arquivo/{{ comp.arquivo.id }}'><span class='fa fa-2x fa-edit'></span></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <hr/>
+            <h3 class="text-center"> Não Existe Arquivos Compartilhados com VC!</h3>
+            <hr/>
+        {% endfor %}
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#notificacoes').addClass('active');
+        });
+    </script>
+{% endblock %}

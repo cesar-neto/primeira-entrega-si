@@ -1,30 +1,35 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar9">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      
-      <div class="brand-centered">
-      <a class="navbar-brand" href="/"><img style="margin-right: 10px; padding: 0;" src="http://res.cloudinary.com/disputebills/image/upload/v1462474206/blue-mark_cnzgry.png" alt="Dispute Bills">DROPBOX
-      </a>
-      </div>
-      
-      <div id="navbar9" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-left">
-          <li class="active"><a href="/">Inicio</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="/logout">Sair</a></li>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar9">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="brand-centered">
+            <a class="navbar-brand" href="/"><img style="margin-right: 10px; padding: 0;"
+                                                  src="http://res.cloudinary.com/disputebills/image/upload/v1462474206/blue-mark_cnzgry.png"
+                                                  alt="Dispute Bills">DROPBOX
+            </a>
+        </div>
+
+        <div id="navbar9" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li id="inicio"><a href="/">Inicio</a></li>
+                <li id="notificacoes"><a href="/notificacoes">Compartilhados <span class="badge">{{ compartilhados|length }}</span></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Olá, {{ usuario.nome }}</a> </li>
+                <li class="active"><a href="/logout">Sair</a></li>
 
 
-        </ul>
-      </div>
-      <!--/.nav-collapse -->
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
     </div>
     <!--/.container-fluid -->
-  </nav>
+</nav>

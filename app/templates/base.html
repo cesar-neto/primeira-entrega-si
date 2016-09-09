@@ -4,77 +4,86 @@
     <meta charset="UTF-8">
     <title>Dropbox</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
-    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css'>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-2.2.3/dt-1.10.12/r-2.1.0/datatables.min.css"/>
+    <link rel='stylesheet' type='text/css'
+          href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
+    <link rel='stylesheet' type='text/css'
+          href='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css'>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/dt/jq-2.2.3/dt-1.10.12/r-2.1.0/datatables.min.css"/>
     <style>
         /**********************************
         Responsive navbar-brand image CSS
         - Remove navbar-brand padding for firefox bug workaround
         - add 100% height and width auto ... similar to how bootstrap img-responsive class works
         ***********************************/
-        
+
         .navbar-brand {
-          padding: 0px;
+            padding: 0px;
         }
-        .navbar-brand>img {
-          height: 100%;
-          padding: 15px;
-          width: auto;
+
+        .navbar-brand > img {
+            height: 100%;
+            padding: 15px;
+            width: auto;
         }
 
         /* EXAMPLE 9 - Center with Flexbox and Text*/
         .brand-centered {
-          display: flex;
-          justify-content: center;
-          position: absolute;
-          width: 100%;
-          left: 0;
-          top: 0;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
         }
+
         .brand-centered .navbar-brand {
-          display: flex;
-          align-items: center;
+            display: flex;
+            align-items: center;
         }
 
         /* CSS Transform Align Navbar Brand Text ... This could also be achieved with table / table-cells */
         .navbar-alignit .navbar-header {
-        	  -webkit-transform-style: preserve-3d;
-          -moz-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-          height: 50px;
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            height: 50px;
         }
+
         .navbar-alignit .navbar-brand {
-        	top: 50%;
-        	display: block;
-        	position: relative;
-        	height: auto;
-        	transform: translate(0,-50%);
-        	margin-right: 15px;
-          margin-left: 15px;
+            top: 50%;
+            display: block;
+            position: relative;
+            height: auto;
+            transform: translate(0, -50%);
+            margin-right: 15px;
+            margin-left: 15px;
         }
-        .navbar-nav>li>.dropdown-menu {
-        	z-index: 9999;
+
+        .navbar-nav > li > .dropdown-menu {
+            z-index: 9999;
         }
     </style>
-    
+
     <script
-			  src="https://code.jquery.com/jquery-2.2.4.js"
-			  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-			  crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-2.2.4.js"
+            integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 {% include 'menu.html' %}
 <div class="container">
-  {% block content %}
-  {% endblock %}
+    {% block content %}
+    {% endblock %}
 </div>
-        
-        
+
+
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-2.2.3/dt-1.10.12/r-2.1.0/datatables.min.js"></script>
-<script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/jq-2.2.3/dt-1.10.12/r-2.1.0/datatables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 {% if messages %}
     {% for message in messages %}
         {% if message.tags == 'error' %}
@@ -94,15 +103,18 @@
 {% endif %}
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#table').DataTable( {
-            "order": [[ 3, "desc" ]]
-        } );
-        $('#table2').DataTable( {
-            "order": [[ 3, "desc" ]]
-        } );
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "order": [[3, "desc"]]
+        });
+        $('#table2').DataTable({
+            "order": [[3, "desc"]]
+        });
         //CKEDITOR.replace( 'content' );
     });
+</script>
+<script>
+    var simplemde = new SimpleMDE({element: $("#content")[0]});
 </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 #!-*- conding: utf8 -*-
+from __future__ import print_function
 from django.shortcuts import render
 from django.contrib import messages
 from django.shortcuts import redirect, render_to_response
@@ -14,7 +15,8 @@ def index(request):
         return redirect('/app')
     except:
         return render_to_response('login.html', {}, context_instance=RequestContext(request))
-        
+
+
 # Falta criar o template register.html
 # Falta exportar base.html
 def registro(request):
@@ -29,7 +31,6 @@ def registro(request):
         if senha != confirmacao_senha:
             messages.error(request, 'Senhas nao coincidem')
             return render_to_response('registro.html', {}, context_instance=RequestContext(request))
-
 
         try:
             us_temp = Usuario.objects.get(email=email)
@@ -52,7 +53,7 @@ def registro(request):
 
 def login(request):
     if request.method == 'GET':
-       return redirect('/')
+        return redirect('/')
     elif request.method == 'POST':
         email = request.POST['email']
         senha = request.POST['senha']
@@ -77,31 +78,40 @@ def login(request):
 
 def app(request):
     usuario = Usuario.objects.get(email=request.session['email'])
-    return render_to_response('app.html', {'usuario': usuario}, context_instance=RequestContext(request))
+    compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)
+    return render_to_response('app.html', {'usuario': usuario, 'usuarios': Usuario.objects.all(),
+                                           'compartilhados': compartilhados}, context_instance=RequestContext(request))
 
 
 def view_pasta(request, id):
     usuario = Usuario.objects.get(email=request.session['email'])
+    compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)
     pasta = Pasta.objects.get(id=id)
-    return render_to_response('view_pasta.html', {'pasta': pasta}, context_instance=RequestContext(request))
+    return render_to_response('view_pasta.html', {'pasta': pasta, 'usuarios': Usuario.objects.all(),
+                                                  'compartilhados': compartilhados},
+                              context_instance=RequestContext(request))
+
 
 def view_file(request, id):
-
     arquivo = Arquivo.objects.get(id=id)
     if request.method == 'GET':
         file = arquivo.arquivo
         file.open(mode='rb')
         content = file.readlines()
         file.close()
-        return render_to_response('view_file.html', {'arquivo': arquivo, 'content': content},
+        return render_to_response('view_file.html', {'arquivo': arquivo, 'content': content,
+                                                     'usuarios': Usuario.objects.all()},
                                   context_instance=RequestContext(request))
-
 
 
 def create_arquivo(request):
     usuario = Usuario.objects.get(email=request.session['email'])
+    compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)
     if request.method == 'GET':
-        return render_to_response('create_file.html', {'usuario': usuario}, context_instance=RequestContext(request))
+        return render_to_response('create_file.html', {'usuario': usuario,
+                                                       'usuarios': Usuario.objects.all(),
+                                                       'compartilhados': compartilhados},
+                                  context_instance=RequestContext(request))
     elif request.method == 'POST':
         nome = request.POST['nome']
         tipo = request.POST['tipo']
@@ -112,43 +122,96 @@ def create_arquivo(request):
         try:
             file = ContentFile(request.POST['content'])
             arquivo = Arquivo(nome=nome, tipo=tipo, pasta=pasta)
-            arquivo.arquivo.save(nome+'.'+tipo, file)
+            arquivo.arquivo.save(nome + '.' + tipo, file)
             arquivo.save()
             usuario.arquivos.add(arquivo)
             usuario.save()
             messages.success(request, 'Arquivo adicionado com sucesso')
             if pasta:
-                return redirect('/pasta/'+str(pasta.id))
+                return redirect('/pasta/' + str(pasta.id))
             else:
                 return redirect('/')
         except:
             messages.error(request, 'Nao foi possivel criar novo arquivo')
-            return render_to_response('create_file.html', {'usuario': usuario}, context_instance=RequestContext(request)) 
-        
-        
+            return render_to_response('create_file.html', {'usuario': usuario,
+                                                           'usuarios': Usuario.objects.all(),
+                                                           'compartilhados': compartilhados},
+                                      context_instance=RequestContext(request))
+
+
 def edit_arquivo(request, id):
     arquivo = Arquivo.objects.get(id=id)
     if request.method == 'GET':
         file = arquivo.arquivo
-        file.open(mode='rb') 
+        file.open(mode='rb')
         content = file.readlines()
         file.close()
-        return render_to_response('edit_file.html', {'arquivo':arquivo, 'content': content}, context_instance=RequestContext(request))
+        return render_to_response('edit_file.html', {'arquivo': arquivo, 'content': content,
+                                                     'usuarios': Usuario.objects.all()},
+                                  context_instance=RequestContext(request))
     elif request.method == 'POST':
         myfile = ContentFile(request.POST['content'])
-        arquivo.arquivo.save(str(arquivo.nome)+'.'+arquivo.tipo, myfile)
+        nome_arquivo = request.POST['nome']
+        arquivo.arquivo.save(str(nome_arquivo) + '.' + arquivo.tipo, myfile)
+        arquivo.nome = nome_arquivo
         arquivo.save()
-        myfile.open(mode='rb') 
+        myfile.open(mode='rb')
         content = myfile.readlines()
         myfile.close()
         messages.success(request, 'Alterado com sucesso')
-        return render_to_response('edit_file.html', {'arquivo':arquivo, 'content': content}, context_instance=RequestContext(request))
-        
+        return render_to_response('edit_file.html', {'arquivo': arquivo, 'content': content,
+                                                     'usuarios': Usuario.objects.all()},
+                                  context_instance=RequestContext(request))
+
+
+def edit_pasta(request, id):
+    pasta = Pasta.objects.get(id=id)
+    if request.method == 'GET':
+        return render_to_response('edit_pasta.html', {'pasta': pasta},
+                                  context_instance=RequestContext(request))
+    elif request.method == 'POST':
+        titulo_pasta = request.POST['titulo']
+        pasta.titulo = titulo_pasta
+        pasta.save()
+        messages.success(request, 'Alterado com sucesso')
+        return redirect('/app')
+
+
+def compartilhar_amigo(request, id):
+    arquivo = Arquivo.objects.get(id=id)
+    id_usuario = request.POST['id_usuario']
+    usuario = Usuario.objects.get(id=id_usuario)
+    if request.POST['habilitado'] == '1':
+        habilitado = True
+    else:
+        habilitado = False
+    comp = Compartilhado(usuario=usuario, arquivo=arquivo, habilitado=habilitado)
+    comp.save()
+    messages.success(request, 'Compartilhado com sucesso')
+    return redirect('/app')
+
+
+def notificacoes(request):
+    usuario = Usuario.objects.get(email=request.session['email'])
+    compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)
+    for comp in compartilhados:
+        comp.status = True
+        comp.save()
+    return render_to_response('notificacoes.html', {'usuario': usuario,
+                                                    'usuarios': Usuario.objects.all(),
+                                                    'compartilhados': compartilhados,
+                                                    'compartilhados_cmg': Compartilhado.objects.filter(usuario=usuario)},
+                              context_instance=RequestContext(request))
+
 
 def nova_pasta(request):
     if request.method == 'GET':
         usuario = Usuario.objects.get(email=request.session['email'])
-        return render_to_response('nova_pasta.html', {'usuario':usuario}, context_instance=RequestContext(request))
+        compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)
+        return render_to_response('nova_pasta.html', {'usuario': usuario,
+                                                      'usuarios': Usuario.objects.all(),
+                                                      'compartilhados': compartilhados},
+                                  context_instance=RequestContext(request))
     elif request.method == 'POST':
         titulo = request.POST['titulo']
         descricao = request.POST['descricao']
@@ -168,6 +231,7 @@ def nova_pasta(request):
             messages.error(request, 'Nao foi possivel criar a pasta')
             return render_to_response('nova_pasta.html', {}, context_instance=RequestContext(request))
 
+
 def remove_pasta(request, id):
     try:
         pasta = Pasta.objects.get(id=id)
@@ -181,9 +245,14 @@ def remove_pasta(request, id):
         messages.error(request, 'Nao foi possivel remover a pasta')
     return redirect('/app')
 
+
 def lixeira(request):
     usuario = Usuario.objects.get(email=request.session['email'])
-    return render_to_response('lixeira.html', {'usuario': usuario}, context_instance=RequestContext(request))
+    compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)
+    return render_to_response('lixeira.html', {'usuario': usuario,
+                                               'usuarios': Usuario.objects.all(),
+                                               'compartilhados': compartilhados},
+                              context_instance=RequestContext(request))
 
 
 def remove_arquivo(request, id):
@@ -205,14 +274,16 @@ def remove_arquivo(request, id):
 
 def upload_arquivo(request):
     usuario = Usuario.objects.get(email=request.session['email'])
+    compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)
     if request.method == 'GET':
-        return render_to_response('upload.html', {'usuario': usuario}, context_instance=RequestContext(request))
+        return render_to_response('upload.html', {'usuario': usuario,
+                                                  'usuarios': Usuario.objects.all(),
+                                                  'compartilhados':compartilhados}, context_instance=RequestContext(request))
     elif request.method == 'POST':
         try:
             nome = request.POST['nome']
             arquivo = request.FILES['file']
             tipo = request.POST['tipo']
-            print request.POST
             if 'pasta' in request.POST:
                 pasta = Pasta.objects.get(id=request.POST['pasta'])
             else:
@@ -230,9 +301,6 @@ def upload_arquivo(request):
             messages.error(request, 'Nao foi possivel adicionar arquivo')
             return redirect('/')
 
-
-def share_arquivo(request):
-    pass
 
 def logout(request):
     request.session.clear()

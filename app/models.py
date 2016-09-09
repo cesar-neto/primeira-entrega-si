@@ -24,7 +24,7 @@ class Arquivo(models.Model):
     status = models.BooleanField(default=True)
     criado_em = models.DateTimeField(auto_now_add=True)
     editado_em = models.DateTimeField(auto_now=True)
-    
+
 
 class Usuario(models.Model):
     nome = models.CharField(max_length=100)
@@ -37,6 +37,18 @@ class Usuario(models.Model):
     
     def __unicode__(self):
         return u'%s' % (self.email)
+
+
+class Compartilhado(models.Model):
+    usuario = models.ForeignKey(Usuario)
+    status = models.BooleanField(default=False)
+    arquivo = models.ForeignKey(Arquivo)
+    habilitado = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u'%s' % (self.usuario)
+
+
         
     
     

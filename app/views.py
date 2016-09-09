@@ -7,7 +7,7 @@ from django.template import RequestContext
 from .models import *
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.files.base import ContentFile
-
+import re
 
 def index(request):
     try:
@@ -54,13 +54,19 @@ def login(request):
     if request.method == 'GET':
         return redirect('/')
     elif request.method == 'POST':
-        email = request.POST['email']
+        nome_ou_email = request.POST['nome_ou_email']
         senha = request.POST['senha']
+        PADRAO_EMAIL = re.compile(r"^[A-Za-z0-9-_]+\.?[A-Za-z0-9-_]+?@[A-Za-z0-9-]+\.[A-Za-z0-9-]+?\.?[A-Za-z0-9-]+?\.?[A-Za-z0-9-]+?")
+        PADRAO_NOME = re.compile(r"[A-Z]?[A-Za-z0-9]{4,100}")
+
         try:
-            if '@' in email:
-                usuario = Usuario.objects.get(email=email)
+            if PADRAO_EMAIL.match(nome_ou_email):
+                usuario = Usuario.objects.get(email=nome_ou_email)
+            elif PADRAO_NOME.match(nome_ou_email):
+                usuario = Usuario.objects.get(nome=nome_ou_email)
             else:
-                usuario = Usuario.objects.get(nome=email)
+                messages.error(request, 'Usuario invalido')
+                return render_to_response('login.html', {}, context_instance=RequestContext(request))
 
             if senha == usuario.senha:
                 request.session['email'] = usuario.email
@@ -73,6 +79,7 @@ def login(request):
             messages.error(request, 'Usuario nao cadastrado')
             return redirect('/')
             # return render_to_response('login.html', {}, context_instance=RequestContext(request))
+
 
 
 def app(request):

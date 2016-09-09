@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a4820631-6351-4f4f-921d-510dc3175895" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/djangoboiler/settings.py" afterPath="$PROJECT_DIR$/djangoboiler/settings.py" />
     </list>
     <ignored path="primeira-entrega-si.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,6 +38,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/djangoboiler/settings.py" />
+      </list>
+    </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -132,6 +140,11 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Alberto\Documents\GitHub\primeira-entrega-si\app" />
+    </key>
   </component>
   <component name="RunManager" selected="Django server.primeira-entrega-si">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">

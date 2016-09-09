@@ -38,7 +38,6 @@ def registro(request):
 
             return render_to_response('registro.html', {}, context_instance=RequestContext(request))
 
-
         except:
             try:
                 name_temp = Usuario.objects.get(nome=nome)
@@ -120,20 +119,28 @@ def create_arquivo(request):
         else:
             pasta = None
         try:
-            file = ContentFile(request.POST['content'])
-            arquivo = Arquivo(nome=nome, tipo=tipo, pasta=pasta)
-            arquivo.arquivo.save(nome + '.' + tipo, file)
-            arquivo.save()
-            usuario.arquivos.add(arquivo)
-            usuario.save()
-            messages.success(request, 'Arquivo adicionado com sucesso')
-            if pasta:
-                return redirect('/pasta/' + str(pasta.id))
-            else:
-                return redirect('/')
-        except:
-            messages.error(request, 'Nao foi possivel criar novo arquivo')
+            arquivo_temp = Arquivo.objects.get(nome=nome)
+            messages.error(request, 'Ja existe arquivo com este nome')
             return render_to_response('create_file.html', {'usuario': usuario,
+                                                           'usuarios': Usuario.objects.all(),
+                                                           'compartilhados': compartilhados},
+                                      context_instance=RequestContext(request))
+        except:
+            try:
+                file = ContentFile(request.POST['content'])
+                arquivo = Arquivo(nome=nome, tipo=tipo, pasta=pasta)
+                arquivo.arquivo.save(nome + '.' + tipo, file)
+                arquivo.save()
+                usuario.arquivos.add(arquivo)
+                usuario.save()
+                messages.success(request, 'Arquivo adicionado com sucesso')
+                if pasta:
+                    return redirect('/pasta/' + str(pasta.id))
+                else:
+                    return redirect('/')
+            except:
+                messages.error(request, 'Nao foi possivel criar novo arquivo')
+                return render_to_response('create_file.html', {'usuario': usuario,
                                                            'usuarios': Usuario.objects.all(),
                                                            'compartilhados': compartilhados},
                                       context_instance=RequestContext(request))
@@ -152,14 +159,19 @@ def edit_arquivo(request, id):
     elif request.method == 'POST':
         myfile = ContentFile(request.POST['content'])
         nome_arquivo = request.POST['nome']
-        arquivo.arquivo.save(str(nome_arquivo) + '.' + arquivo.tipo, myfile)
-        arquivo.nome = nome_arquivo
-        arquivo.save()
-        myfile.open(mode='rb')
-        content = myfile.readlines()
-        myfile.close()
-        messages.success(request, 'Alterado com sucesso')
-        return render_to_response('edit_file.html', {'arquivo': arquivo, 'content': content,
+        try:
+            arq_temp = Arquivo.objects.get(nome=nome_arquivo)
+            messages.error(request, 'Ja existe arquivo com este nome')
+            return redirect('/app')
+        except:
+            arquivo.arquivo.save(str(nome_arquivo) + '.' + arquivo.tipo, myfile)
+            arquivo.nome = nome_arquivo
+            arquivo.save()
+            myfile.open(mode='rb')
+            content = myfile.readlines()
+            myfile.close()
+            messages.success(request, 'Alterado com sucesso')
+            return render_to_response('edit_file.html', {'arquivo': arquivo, 'content': content,
                                                      'usuarios': Usuario.objects.all()},
                                   context_instance=RequestContext(request))
 
@@ -171,10 +183,15 @@ def edit_pasta(request, id):
                                   context_instance=RequestContext(request))
     elif request.method == 'POST':
         titulo_pasta = request.POST['titulo']
-        pasta.titulo = titulo_pasta
-        pasta.save()
-        messages.success(request, 'Alterado com sucesso')
-        return redirect('/app')
+        try:
+            pasta_temp = Pasta.objects.get(titulo=titulo_pasta)
+            messages.error(request, 'Ja existe pasta com esse nome')
+            return redirect('/app')
+        except:
+            pasta.titulo = titulo_pasta
+            pasta.save()
+            messages.success(request, 'Alterado com sucesso')
+            return redirect('/app')
 
 
 def compartilhar_amigo(request, id):
@@ -220,16 +237,21 @@ def nova_pasta(request):
         else:
             past = None
         try:
-            pasta = Pasta(titulo=titulo, desc=descricao)
-            pasta.save()
-            usuario = Usuario.objects.get(email=request.session['email'])
-            usuario.pastas.add(pasta)
-            usuario.save()
-            messages.success(request, 'Pasta criada com sucesso')
-            return redirect('/app')
-        except:
-            messages.error(request, 'Nao foi possivel criar a pasta')
+            pasta_temp = Pasta.objects.get(titulo=titulo)
+            messages.error(request, 'Ja existe pasta com esse nome')
             return render_to_response('nova_pasta.html', {}, context_instance=RequestContext(request))
+        except:
+            try:
+                pasta = Pasta(titulo=titulo, desc=descricao)
+                pasta.save()
+                usuario = Usuario.objects.get(email=request.session['email'])
+                usuario.pastas.add(pasta)
+                usuario.save()
+                messages.success(request, 'Pasta criada com sucesso')
+                return redirect('/app')
+            except:
+                messages.error(request, 'Nao foi possivel criar a pasta')
+                return render_to_response('nova_pasta.html', {}, context_instance=RequestContext(request))
 
 
 def remove_pasta(request, id):

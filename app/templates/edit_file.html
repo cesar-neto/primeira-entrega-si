@@ -35,9 +35,14 @@
                                     <div class="form-group">
                                         <label for="">Formato:</label>
                                         <select class='form-control' name='tipo' required>
-                                            <option disabled selected value> --</option>
-                                            <option value='txt'>.txt</option>
-                                            <option value='md'>.md</option>
+                                            {% if arquivo.tipo == "txt"%}
+                                                <option value='txt'>.txt</option>
+                                                <option value='md'>.md</option>
+                                            {% endif %}
+                                            {% if arquivo.tipo == "md"%}
+                                                <option value='md'>.md</option>
+                                                <option value='txt'>.txt</option>
+                                            {% endif %}
                                         </select>
                                     </div>
                                 </div>

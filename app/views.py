@@ -93,19 +93,20 @@ def view_pasta(request, id):
     usuario = Usuario.objects.get(email=request.session['email'])
     compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)
     pasta = Pasta.objects.get(id=id)
-    return render_to_response('view_pasta.html', {'pasta': pasta, 'usuarios': Usuario.objects.all(),
+    return render_to_response('view_pasta.html', {'usuario': usuario, 'pasta': pasta, 'usuarios': Usuario.objects.all(),
                                                   'compartilhados': compartilhados},
                               context_instance=RequestContext(request))
 
 
 def view_file(request, id):
+    usuario = Usuario.objects.get(email=request.session['email'])
     arquivo = Arquivo.objects.get(id=id)
     if request.method == 'GET':
         file = arquivo.arquivo
         file.open(mode='rb')
         content = file.readlines()
         file.close()
-        return render_to_response('view_file.html', {'arquivo': arquivo, 'content': content,
+        return render_to_response('view_file.html', {'usuario': usuario, 'arquivo': arquivo, 'content': content,
                                                      'usuarios': Usuario.objects.all()},
                                   context_instance=RequestContext(request))
 
@@ -154,25 +155,29 @@ def create_arquivo(request):
 
 
 def edit_arquivo(request, id):
+    usuario = Usuario.objects.get(email=request.session['email'])
     arquivo = Arquivo.objects.get(id=id)
     if request.method == 'GET':
         file = arquivo.arquivo
         file.open(mode='rb')
         content = file.readlines()
         file.close()
-        return render_to_response('edit_file.html', {'arquivo': arquivo, 'content': content,
+        return render_to_response('edit_file.html', {'usuario': usuario, 'arquivo': arquivo, 'content': content,
                                                      'usuarios': Usuario.objects.all()},
                                   context_instance=RequestContext(request))
     elif request.method == 'POST':
         myfile = ContentFile(request.POST['content'])
         nome_arquivo = request.POST['nome']
+        tipo_arquivo = request.POST['tipo']
+
         try:
             arq_temp = Arquivo.objects.get(nome=nome_arquivo)
             messages.error(request, 'Ja existe arquivo com este nome')
             return redirect('/app')
         except:
-            arquivo.arquivo.save(str(nome_arquivo) + '.' + arquivo.tipo, myfile)
+            arquivo.arquivo.save(str(nome_arquivo) + '.' + tipo_arquivo, myfile)
             arquivo.nome = nome_arquivo
+            arquivo.tipo = tipo_arquivo
             arquivo.save()
             myfile.open(mode='rb')
             content = myfile.readlines()
@@ -184,9 +189,10 @@ def edit_arquivo(request, id):
 
 
 def edit_pasta(request, id):
+    usuario = Usuario.objects.get(email=request.session['email'])
     pasta = Pasta.objects.get(id=id)
     if request.method == 'GET':
-        return render_to_response('edit_pasta.html', {'pasta': pasta},
+        return render_to_response('edit_pasta.html', {'usuario': usuario, 'pasta': pasta},
                                   context_instance=RequestContext(request))
     elif request.method == 'POST':
         titulo_pasta = request.POST['titulo']

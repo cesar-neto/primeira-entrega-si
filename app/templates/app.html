@@ -106,109 +106,109 @@
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">
-                    <text style="font-weight:bold">ARQUIVOS</text>
-                </div>
-                <div class="panel-body text-center">
-                    {% for arquivo in usuario.arquivos.all %}
-                        {% if not arquivo.pasta and arquivo.status %}
-                            <div class='col-xs-6 col-sm-4 col-md-3'>
-                                <div class="panel-group">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body text-center">
-                                            <a href='/arquivo/{{ arquivo.id }}'>{{ arquivo.nome }}</a>
+                        <text style="font-weight:bold">ARQUIVOS</text>
+                    </div>
+                    <div class="panel-body text-center">
+                        {% for arquivo in usuario.arquivos.all %}
+                            {% if not arquivo.pasta and arquivo.status %}
+                                <div class='col-xs-6 col-sm-4 col-md-3'>
+                                    <div class="panel-group">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body text-center">
+                                                <a href='/arquivo/{{ arquivo.id }}'>{{ arquivo.nome }}</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-body text-center">
-                                            <label style='font-size:55px;'><a href='/arquivo/{{ arquivo.id }}'><span
-                                                    class='fa fa-1x fa-file-text-o'></span></a></label>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <div class='row'>
-                                                <div class='col-xs-3'>
-                                                    <a href='/media/{{ arquivo.arquivo }}'
-                                                       download='/media/{{ arquivo.arquivo }}'><span
-                                                            class='fa fa-2x fa-download'></span></a>
-                                                </div>
-                                                <div class='col-xs-3'>
-                                                    <a href='/edit-arquivo/{{ arquivo.id }}'><span class='fa fa-2x fa-edit'></span></a>
-                                                </div>
-                                                <div class='col-xs-3'>
-                                                    <a data-toggle="modal" data-target="#modal{{ arquivo.id }}"><span
-                                                            class='fa fa-2x fa-share-alt'></span></a>
-                                                </div>
-                                                <div class='col-xs-3'>
-                                                    <a href='/remove-arquivo/{{ arquivo.id }}'><span
-                                                            class='fa fa-2x fa-trash-o'></span></a>
+                                        <div class="panel panel-default">
+                                            <div class="panel-body text-center">
+                                                <label style='font-size:55px;'><a href='/arquivo/{{ arquivo.id }}'><span
+                                                        class='fa fa-1x fa-file-text-o'></span></a></label>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <div class='row'>
+                                                    <div class='col-xs-3'>
+                                                        <a href='/media/{{ arquivo.arquivo }}'
+                                                           download='/media/{{ arquivo.arquivo }}'><span
+                                                                class='fa fa-2x fa-download'></span></a>
+                                                    </div>
+                                                    <div class='col-xs-3'>
+                                                        <a href='/edit-arquivo/{{ arquivo.id }}'><span class='fa fa-2x fa-edit'></span></a>
+                                                    </div>
+                                                    <div class='col-xs-3'>
+                                                        <a data-toggle="modal" data-target="#modal{{ arquivo.id }}"><span
+                                                                class='fa fa-2x fa-share-alt'></span></a>
+                                                    </div>
+                                                    <div class='col-xs-3'>
+                                                        <a href='/remove-arquivo/{{ arquivo.id }}'><span
+                                                                class='fa fa-2x fa-trash-o'></span></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
 
-                            <div id="modal{{ arquivo.id }}" class="modal fade" role="dialog">
-                                <form method="post" action="/compartilhar-amigo/{{ arquivo.id }}">{% csrf_token %}
-                                    <div class="modal-dialog">
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 class="modal-title">Compartilhe com seus amigos!</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <input id='input{{ arquivo.id }}' type='text' class='form-control'/>
-                                                    <script type="text/javascript">
-                                                        $(function () {
-                                                            $('#input{{arquivo.id}}').val(location.origin + '/media/{{arquivo.arquivo}}');
-                                                        });
-                                                    </script>
+                                <div id="modal{{ arquivo.id }}" class="modal fade" role="dialog">
+                                    <form method="post" action="/compartilhar-amigo/{{ arquivo.id }}">{% csrf_token %}
+                                        <div class="modal-dialog">
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Compartilhe com seus amigos!</h4>
                                                 </div>
-                                                <div class="form-group">
-                                                    <select name="id_usuario" class="form-control">
-                                                        {% for u in usuarios %}
-                                                            <option value="{{ u.id }}">{{ u.nome }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <select class="form-control" name="habilitado">
-                                                        <option value="1">Escrita</option>
-                                                        <option value="0">Leitura</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <button type="submit" class="btn btn-primary">Compartilhar
-                                                        </button>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <input id='input{{ arquivo.id }}' type='text' class='form-control'/>
+                                                        <script type="text/javascript">
+                                                            $(function () {
+                                                                $('#input{{arquivo.id}}').val(location.origin + '/media/{{arquivo.arquivo}}');
+                                                            });
+                                                        </script>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <a href="#" class="btn btn-default" data-dismiss="modal">Fechar
-                                                        </a>
+                                                    <div class="form-group">
+                                                        <select name="id_usuario" class="form-control">
+                                                            {% for u in usuarios %}
+                                                                <option value="{{ u.id }}">{{ u.nome }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select class="form-control" name="habilitado">
+                                                            <option value="1">Escrita</option>
+                                                            <option value="0">Leitura</option>
+                                                        </select>
                                                     </div>
 
                                                 </div>
+                                                <div class="modal-footer">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <button type="submit" class="btn btn-primary">Compartilhar
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <a href="#" class="btn btn-default" data-dismiss="modal">Fechar
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
+
                                         </div>
-
-                                    </div>
-                                </form>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                                    </form>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        $(document).ready(function () {
-            $('#inicio').addClass('active');
-        });
-    </script>
+        <script>
+            $(document).ready(function () {
+                $('#inicio').addClass('active');
+            });
+        </script>
 {% endblock %}

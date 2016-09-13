@@ -95,6 +95,10 @@
                                     </div>
                                 </div>
                             {% endif %}
+                        {% empty %}
+                            <hr/>
+                            <h3 class="text-center"> Você não possui pastas! </h3>
+                            <hr/>
                         {% endfor %}
                     </div>
                 </div>
@@ -200,6 +204,10 @@
                                     </form>
                                 </div>
                             {% endif %}
+                        {% empty %}
+                            <hr/>
+                            <h3 class="text-center"> Você não possui arquivos! </h3>
+                            <hr/>
                         {% endfor %}
                     </div>
                 </div>

@@ -23,11 +23,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
 
-                            {% comment %}              <textarea name="content" rows="15" cols="80">
-                {% for it in content %}
-                  {{ it }}
-                {% endfor %}
-              </textarea>{% endcomment %}
+
                             <textarea name="content" id="content" readonly>{% for it in content %}{{ it }}{% endfor %}</textarea>
                             <script>
                                 $(document).ready(function () {
@@ -46,12 +42,20 @@
                                     {% endif %}
 
                                 </div>
-                                <div class='col-xs-3'>
+     <style>
+    #box{
+
+	text-align: center;
+
+
+    }
+    </style>
+                                <div class="panel-body text-center col-md-12" >
                                     <a class='btn' href='/media/{{ arquivo.arquivo }}'
                                        download='/media/{{ arquivo.arquivo }}'><span
                                             class='fa fa-2x fa-download'></span></a>
-                               {% comment %} </div>
-                                <div class='col-xs-3'>
+                                </div>
+                                {% comment %}<div class='col-xs-3'>
                                     <a class='btn' data-toggle="modal" data-target="#modal{{ arquivo.id }}"><span
                                             class='fa fa-2x fa-share-alt'></span></a>
                                 </div>

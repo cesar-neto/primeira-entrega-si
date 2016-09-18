@@ -17,8 +17,6 @@ def index(request):
         return render_to_response('login.html', {}, context_instance=RequestContext(request))
 
 
-# Falta criar o template register.html
-# Falta exportar base.html
 def registro(request):
     if request.method == 'GET':
         return render_to_response('registro.html', {}, context_instance=RequestContext(request))
@@ -217,9 +215,13 @@ def edit_arquivo(request, id):
         tipo_arquivo = request.POST['tipo']
 
         try:
-            arq_temp = Arquivo.objects.get(nome=nome_arquivo)
-            messages.error(request, 'Ja existe arquivo com este nome')
-            return redirect('/app')
+            if nome_arquivo != arquivo.nome:
+                arq_temp = Arquivo.objects.get(id=nome_arquivo.id)
+                messages.error(request, 'Ja existe arquivo com este nome')
+                return redirect('/app')
+            else:
+                arq_temp = Arquivo.objects.get(id=nome_arquivo.id)
+
         except:
             arquivo.arquivo.save(str(nome_arquivo) + '.' + tipo_arquivo, myfile)
             arquivo.nome = nome_arquivo
@@ -229,9 +231,7 @@ def edit_arquivo(request, id):
             content = myfile.readlines()
             myfile.close()
             messages.success(request, 'Alterado com sucesso')
-            return render_to_response('edit_file.html', {'arquivo': arquivo, 'content': content,
-                                                     'usuarios': Usuario.objects.all()},
-                                  context_instance=RequestContext(request))
+            return redirect('/app')
 
 
 def edit_pasta(request, id):
@@ -242,10 +242,12 @@ def edit_pasta(request, id):
                                   context_instance=RequestContext(request))
     elif request.method == 'POST':
         titulo_pasta = request.POST['titulo']
+        
         try:
             pasta_temp = Pasta.objects.get(titulo=titulo_pasta)
             messages.error(request, 'Ja existe pasta com esse nome')
-            return redirect('/app')
+            return render_to_response('edit_pasta.html', {'usuario': usuario, 'pasta': pasta},
+                                      context_instance=RequestContext(request))
         except:
             pasta.titulo = titulo_pasta
             pasta.save()

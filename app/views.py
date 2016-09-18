@@ -242,7 +242,7 @@ def edit_pasta(request, id):
                                   context_instance=RequestContext(request))
     elif request.method == 'POST':
         titulo_pasta = request.POST['titulo']
-        
+
         try:
             pasta_temp = Pasta.objects.get(titulo=titulo_pasta)
             messages.error(request, 'Ja existe pasta com esse nome')

@@ -123,6 +123,40 @@ def view_file_compartinhado(request, id):
                                   context_instance=RequestContext(request))
 
 
+def edit_arquivo_compartilhado(request, id):
+    usuario = Usuario.objects.get(email=request.session['email'])
+    arquivo = Arquivo.objects.get(id=id)
+    if request.method == 'GET':
+        file = arquivo.arquivo
+        file.open(mode='rb')
+        content = file.readlines()
+        file.close()
+        return render_to_response('edit_file_compartilhado.html', {'usuario': usuario, 'arquivo': arquivo, 'content': content,
+                                                     'usuarios': Usuario.objects.all()},
+                                  context_instance=RequestContext(request))
+    elif request.method == 'POST':
+        myfile = ContentFile(request.POST['content'])
+        nome_arquivo = request.POST['nome']
+        tipo_arquivo = request.POST['tipo']
+
+        try:
+            arq_temp = Arquivo.objects.get(nome=nome_arquivo)
+            messages.error(request, 'Ja existe arquivo com este nome')
+            return redirect('/app')
+        except:
+            arquivo.arquivo.save(str(nome_arquivo) + '.' + tipo_arquivo, myfile)
+            arquivo.nome = nome_arquivo
+            arquivo.tipo = tipo_arquivo
+            arquivo.save()
+            myfile.open(mode='rb')
+            content = myfile.readlines()
+            myfile.close()
+            messages.success(request, 'Alterado com sucesso')
+            return render_to_response('edit_file_compartilhado.html', {'arquivo': arquivo, 'content': content,
+                                                     'usuarios': Usuario.objects.all()},
+                                  context_instance=RequestContext(request))
+
+
 def create_arquivo(request):
     usuario = Usuario.objects.get(email=request.session['email'])
     compartilhados = Compartilhado.objects.filter(usuario=usuario, status=False)

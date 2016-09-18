@@ -41,5 +41,6 @@ urlpatterns = [
                   url(r'^upload-arquivo', views.upload_arquivo, name='uploadarquivo'),
                   url(r'^compartilhar-amigo/(?P<id>[0-9]+)', views.compartilhar_amigo, name='compartilhararquivo'),
                   url(r'^arquivo/(?P<id>[0-9]+)', views.view_file, name='viewfile'),
+                  url(r'^arquivo_compartilhado/(?P<id>[0-9]+)', views.view_file_compartinhado, name='viewfilecompartilhado'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,7 +9,7 @@ TIPOS = (
 )
 
 class Pasta(models.Model):
-    titulo = models.CharField(max_length=100)
+    titulo = models.CharField(max_length=10)
     desc = models.CharField(max_length=100, blank=True, null=True)
     status = models.BooleanField(default=True)
     criado_em = models.DateTimeField(auto_now_add=True)
@@ -17,7 +17,7 @@ class Pasta(models.Model):
     
 
 class Arquivo(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(max_length=10)
     arquivo = models.FileField()
     pasta = models.ForeignKey(Pasta, blank=True, null=True)
     tipo = models.CharField(max_length=50, choices=TIPOS)
@@ -27,7 +27,7 @@ class Arquivo(models.Model):
 
 
 class Usuario(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(max_length=10)
     email = models.EmailField()
     senha = models.CharField(max_length=20)
     pastas = models.ManyToManyField(Pasta, blank=True)

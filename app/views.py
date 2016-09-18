@@ -110,6 +110,18 @@ def view_file(request, id):
                                                      'usuarios': Usuario.objects.all()},
                                   context_instance=RequestContext(request))
 
+def view_file_compartinhado(request, id):
+    usuario = Usuario.objects.get(email=request.session['email'])
+    arquivo = Arquivo.objects.get(id=id)
+    if request.method == 'GET':
+        file = arquivo.arquivo
+        file.open(mode='rb')
+        content = file.readlines()
+        file.close()
+        return render_to_response('view_file_compartilhado.html', {'usuario': usuario, 'arquivo': arquivo, 'content': content,
+                                                     'usuarios': Usuario.objects.all()},
+                                  context_instance=RequestContext(request))
+
 
 def create_arquivo(request):
     usuario = Usuario.objects.get(email=request.session['email'])

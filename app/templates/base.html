@@ -114,7 +114,12 @@
     });
 </script>
 <script>
-    var simplemde = new SimpleMDE({element: $("#content")[0]});
+    try{
+        var simplemde = new SimpleMDE({element: $("#content")[0]});
+    }catch (e){
+        console.log(e);
+    }
+
 </script>
 </body>
 </html>

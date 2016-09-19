@@ -1,92 +1,110 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-      <div class='col-md-6'>
-        <label>PASTAS DELETADAS:</label>
-        <br/><hr/>
-        <table id='table' class='table table-condensed'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Titulo</th>
-              <th>Criado Em</th>
-              <th>Editado Em</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for pasta in usuario.pastas.all %}
-              {% if pasta.status == False %}
-              <tr>
-                <td>{{ pasta.id }}</td>
-                <td>{{ pasta.titulo }}</td>
-                <td>{{ pasta.criado_em }}</td>
-                <td>{{ pasta.editado_em }}</td>
-              </tr>
-              {% endif %}
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    	<div class='col-md-6'>
-    	  <label>ARQUIVOS DELETADOS:</label>
-    	  <br/><hr/>
-    	    <table id="table2" class="table table-condensed">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <a href="#" class="btn btn-success btn-block">Limpar Arquivos</a>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class='col-md-12'>
+            <label>PASTAS DELETADAS:</label>
+            <br/>
+            <hr/>
+            <table id='table' class='table table-condensed'>
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Tipo</th>
-                        <th>Criado Em</th>
-                        <th>Editado Em</th>
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Titulo</th>
+                    <th>Criado Em</th>
+                    <th>Editado Em</th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                    {% for arquivo in usuario.arquivos.all %}
-                      {% if arquivo.status == False %}
+                {% for pasta in usuario.pastas.all %}
+                    {% if pasta.status == False %}
+                        <tr>
+                            <td>{{ pasta.id }}</td>
+                            <td>{{ pasta.titulo }}</td>
+                            <td>{{ pasta.criado_em }}</td>
+                            <td>{{ pasta.editado_em }}</td>
+                            <td><a href="/restpasta/{{ pasta.id }}"><i class="fa fa-rotate-left"></i></a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br/><br/>
+    <div class="row">
+        <div class='col-md-12'>
+            <label>ARQUIVOS DELETADOS:</label>
+            <br/>
+            <hr/>
+            <table id="table2" class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Criado Em</th>
+                    <th>Editado Em</th>
+                    <th></th>
+                    <!--<th></th>-->
+                    <!--<th></th>-->
+                    <!--<th></th>-->
+                    <!--<th></th>-->
+                </tr>
+                </thead>
+                <tbody>
+                {% for arquivo in usuario.arquivos.all %}
+                    {% if arquivo.status == False %}
                         <tr>
                             <td>{{ arquivo.id }}</td>
                             <td>{{ arquivo.nome }}</td>
                             <td>{{ arquivo.tipo }}</td>
                             <td>{{ arquivo.criado_em }}</td>
                             <td>{{ arquivo.editado_em }}</td>
+                            <td><a href="/restarquivo/{{ arquivo.id }}"><i class="fa fa-rotate-left"></i></a></td>
                             <!--<td><a href='/media/{{arquivo.arquivo}}' download='/media/{{arquivo.arquivo}}'><span class='fa fa-download'></span></a></td>-->
                             <!--<td><a href='/edit-arquivo/{{arquivo.id}}'><span class='fa fa-edit'></span></a></td>-->
                             <!--<td><a data-toggle="modal" data-target="#modal{{arquivo.id}}"><span class='fa fa-share-alt'></span></a></td>-->
                             <!--<td><a href='/remove-arquivo/{{arquivo.id}}'><span class='fa fa-trash'></span></a></td>-->
                         </tr>
-                        <div id="modal{{arquivo.id}}" class="modal fade" role="dialog">
-                          <div class="modal-dialog">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Compartilhe com seus amigos!</h4>
-                              </div>
-                              <div class="modal-body">
-                                <input id='input{{arquivo.id}}' type='text' class='form-control' />
-                                <script type="text/javascript">
-                                  $(function(){
-                                    $('#input{{arquivo.id}}').val(location.origin+'/media/{{arquivo.arquivo}}');
-                                  });
-                                </script>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              </div>
+                        <div id="modal{{ arquivo.id }}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Compartilhe com seus amigos!</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input id='input{{ arquivo.id }}' type='text' class='form-control'/>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#input{{arquivo.id}}').val(location.origin + '/media/{{arquivo.arquivo}}');
+                                            });
+                                        </script>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+
                             </div>
-                        
-                          </div>
                         </div>
-                        {% endif %}
-                    {% endfor %}
+                    {% endif %}
+                {% endfor %}
                 </tbody>
-                </table>
-    	</div>
-        <a class='btn' href='/'><span class='fa fa-2x fa-chevron-left'></span></a>
-	</div>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <a class='btn pull-left' href='/app'><span class='fa fa-2x fa-chevron-left'></span></a>
+    </div>
 {% endblock %}

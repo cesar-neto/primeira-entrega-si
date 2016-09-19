@@ -242,14 +242,18 @@ def edit_pasta(request, id):
                                   context_instance=RequestContext(request))
     elif request.method == 'POST':
         titulo_pasta = request.POST['titulo']
-
+        descricao_pasta = request.POST['descricao']
         try:
-            pasta_temp = Pasta.objects.get(titulo=titulo_pasta)
-            messages.error(request, 'Ja existe pasta com esse nome')
-            return render_to_response('edit_pasta.html', {'usuario': usuario, 'pasta': pasta},
+            if titulo_pasta != pasta.titulo:
+                pasta_temp = Pasta.objects.get(titulo=titulo_pasta)
+                messages.error(request, 'Ja existe pasta com esse nome')
+                return render_to_response('edit_pasta.html', {'usuario': usuario, 'pasta': pasta},
                                       context_instance=RequestContext(request))
+            else:
+                pasta_temp = Pasta.objects.get(id=titulo_pasta.id)
         except:
             pasta.titulo = titulo_pasta
+            pasta.desc = descricao_pasta
             pasta.save()
             messages.success(request, 'Alterado com sucesso')
             return redirect('/app')

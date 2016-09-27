@@ -28,26 +28,23 @@ def registro(request):
         senha = request.POST['senha']
         confirmacao_senha = request.POST['confirmacao_senha']
 
-        if senha != confirmacao_senha:
-            messages.error(request, 'Senhas nao coincidem')
-            return render_to_response('registro.html', {}, context_instance=RequestContext(request))
-
         try:
-            us_temp = Usuario.objects.get(email=email)
-            messages.error(request, 'Email ja cadastrado')
+            if senha != confirmacao_senha:
+                messages.error(request, 'Senhas nao coincidem')
+                return render_to_response('registro.html', {}, context_instance=RequestContext(request))
 
-            return render_to_response('registro.html', {}, context_instance=RequestContext(request))
+            elif Usuario.objects.get(email=email):
+                messages.error(request, 'Email ja cadastrado')
+                return render_to_response('registro.html', {}, context_instance=RequestContext(request))
 
-        except:
-            try:
-                name_temp = Usuario.objects.get(nome=nome)
+            elif Usuario.objects.get(nome=nome):
                 messages.error(request, 'Nome de usuario ja cadastrado')
                 return render_to_response('registro.html', {}, context_instance=RequestContext(request))
-            except:
-                new_usuario = Usuario(nome=nome, email=email, senha=senha)
-                new_usuario.save()
-                messages.success(request, 'Usuario criado com sucesso')
-                return redirect('/')
+        except:
+            new_usuario = Usuario(nome=nome, email=email, senha=senha)
+            new_usuario.save()
+            messages.success(request, 'Usuario criado com sucesso')
+            return redirect('/')
 
 # Login e permitido o usuario tanto logar com nome ou email;
 def login(request):
@@ -63,26 +60,31 @@ def login(request):
         try:
             if PADRAO_EMAIL.match(nome_ou_email):
                 usuario = Usuario.objects.get(email=nome_ou_email)
+                if senha == usuario.senha:
+                    request.session['email'] = usuario.email
+                    request.session.set_expiry(86400)
+                    return redirect('/app')
+                else:
+                    messages.error(request, 'Senha Incorreta')
             elif PADRAO_NOME.match(nome_ou_email):
                 usuario = Usuario.objects.get(nome=nome_ou_email)
+                if senha == usuario.senha:
+                    request.session['email'] = usuario.email
+                    request.session.set_expiry(86400)
+                    return redirect('/app')
+                else:
+                    messages.error(request, 'Senha Incorreta')
             else:
                 messages.error(request, 'Usuario invalido')
                 return render_to_response('login.html', {}, context_instance=RequestContext(request))
 
-            if senha == usuario.senha:
-                request.session['email'] = usuario.email
-                request.session.set_expiry(86400)
-                return redirect('/app')
-            else:
-                messages.error(request, 'Senha Incorreta')
             return redirect('/')
             # return render_to_response('login.html', {}, context_instance=RequestContext(request))
         except:
             messages.error(request, 'Usuario nao cadastrado')
             return redirect('/')
             # return render_to_response('login.html', {}, context_instance=RequestContext(request))
-
-
+        
 def app(request):
     try:
         usuario = Usuario.objects.get(email=request.session['email'])

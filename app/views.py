@@ -239,7 +239,10 @@ def edit_arquivo(request, id):
         myfile = ContentFile(request.POST['content'])
         nome_arquivo = request.POST['nome']
         tipo_arquivo = request.POST['tipo']
-
+        if 'pasta' in request.POST:
+            pasta_arquivo = Pasta.objects.get(id=request.POST['pasta'])
+        else:
+            pasta_arquivo = None
         try:
             if nome_arquivo != arquivo.nome:
                 arq_temp = Arquivo.objects.get(nome=nome_arquivo)
@@ -251,6 +254,7 @@ def edit_arquivo(request, id):
         except:
             arquivo.arquivo.save(str(nome_arquivo) + '.' + tipo_arquivo, myfile)
             arquivo.nome = nome_arquivo
+            arquivo.pasta = pasta_arquivo
             arquivo.tipo = tipo_arquivo
             arquivo.save()
             myfile.open(mode='rb')

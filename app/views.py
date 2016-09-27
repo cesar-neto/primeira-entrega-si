@@ -1,4 +1,5 @@
 #!-*- conding: utf8 -*-
+# coding=utf-8
 from __future__ import print_function
 from django.shortcuts import render
 from django.contrib import messages
@@ -17,7 +18,7 @@ def index(request):
     except:
         return render_to_response('login.html', {}, context_instance=RequestContext(request))
 
-
+# Registra usuario com nome ,email, senha , e comnfirmação de senha , não e permitido usuarios com mesmo nome e email;
 def registro(request):
     if request.method == 'GET':
         return render_to_response('registro.html', {}, context_instance=RequestContext(request))
@@ -48,7 +49,7 @@ def registro(request):
                 messages.success(request, 'Usuario criado com sucesso')
                 return redirect('/')
 
-
+# Login e permitido o usuario tanto logar com nome ou email;
 def login(request):
     if request.method == 'GET':
         return redirect('/')
@@ -121,7 +122,7 @@ def view_file(request, id):
     except:
         return redirect('/')
 
-
+#O usuario pode compartilha aquivos com usuarios do mesmo sistema ,  e o compratilhamento poder ser tanto de leitura como e edição.
 def view_file_compartinhado(request, id):
     try:
         usuario = Usuario.objects.get(email=request.session['email'])
@@ -138,7 +139,7 @@ def view_file_compartinhado(request, id):
     except:
         return redirect('/')
 
-
+# edita aquivo, "escrita"  pode editar o nome, tipo, pasta, texto e excluir o aquivo  de aquivos compartilhados como escrita .
 def edit_arquivo_compartilhado(request, id):
     try:
         usuario = Usuario.objects.get(email=request.session['email'])
@@ -176,7 +177,7 @@ def edit_arquivo_compartilhado(request, id):
     except:
         return redirect('/')
 
-
+# criar um novo aquivo
 def create_arquivo(request):
     try:
         usuario = Usuario.objects.get(email=request.session['email'])
@@ -222,7 +223,7 @@ def create_arquivo(request):
     except:
         return redirect('/')
 
-
+#editar um arquivo nome, pasta, e texto.
 def edit_arquivo(request, id):
     usuario = Usuario.objects.get(email=request.session['email'])
     arquivo = Arquivo.objects.get(id=id)
@@ -260,6 +261,7 @@ def edit_arquivo(request, id):
                                                          'usuarios': Usuario.objects.all()},
                                       context_instance=RequestContext(request))
 
+#editar um pasta nome, pasta, e texto.
 
 def edit_pasta(request, id):
     usuario = Usuario.objects.get(email=request.session['email'])
@@ -285,6 +287,7 @@ def edit_pasta(request, id):
             messages.success(request, 'Alterado com sucesso')
             return redirect('/app')
 
+# compartilha o  aquivo  de escrita como leitura,  pode editar o nome, tipo, pasta, texto e excluir o aquivo  .
 
 def compartilhar_amigo(request, id):
     try:
@@ -302,7 +305,7 @@ def compartilhar_amigo(request, id):
     except:
         return redirect('/')
 
-
+# notificar o usuario quando tiver aquivos compartilhado com o mesmo
 def notificacoes(request):
     try:
         usuario = Usuario.objects.get(email=request.session['email'])
@@ -319,7 +322,7 @@ def notificacoes(request):
     except:
         return redirect('/')
 
-
+#nova pasta
 def nova_pasta(request):
     if request.method == 'GET':
         try:
@@ -355,7 +358,7 @@ def nova_pasta(request):
                 messages.error(request, 'Nao foi possivel criar a pasta')
                 return render_to_response('nova_pasta.html', {}, context_instance=RequestContext(request))
 
-
+# Excluir pasta
 def remove_pasta(request, id):
     try:
         pasta = Pasta.objects.get(id=id)
@@ -369,7 +372,7 @@ def remove_pasta(request, id):
         messages.error(request, 'Nao foi possivel remover a pasta')
     return redirect('/app')
 
-
+# lixeira
 def lixeira(request):
     try:
         usuario = Usuario.objects.get(email=request.session['email'])
@@ -381,7 +384,7 @@ def lixeira(request):
     except:
         return redirect('/')
 
-
+#remover aquivos
 def remove_arquivo(request, id):
     try:
         usuario = Usuario.objects.get(email=request.session['email'])
@@ -398,7 +401,7 @@ def remove_arquivo(request, id):
         messages.error(request, 'Nao foi possivel remover o arquivo')
         return redirect('/')
 
-
+#Plus aqui o metodo Upload de aquivo nele o usuario pode escolher um aquivo txt ou md de sua maquina.
 def upload_arquivo(request):
     try:
         usuario = Usuario.objects.get(email=request.session['email'])
@@ -437,7 +440,7 @@ def logout(request):
     request.session.clear()
     return redirect('/')
 
-
+#Plus aqui o usuario pode restaurar suas pastas da lixeira clicando no botão circular .
 def restaurar_pasta(request, id):
     try:
         pasta = Pasta.objects.get(id=id)
@@ -451,6 +454,7 @@ def restaurar_pasta(request, id):
         messages.error(request, 'Nao foi possivel restaurar a pasta')
     return redirect('/')
 
+#Plus aqui o usuario pode restaurar arquivos suas pastas da lixeira clicando no botão circular .
 
 def restaurar_arquivo(request, id):
     try:
@@ -469,3 +473,18 @@ def restaurar_arquivo(request, id):
         return redirect('/')
 
 
+# Limpar lixeira o usuaruio apaga completamentes seus aquivos da lixeira tanto as pasta como os aquivos txt e md;
+def limpar_lixeira(request):
+    try:
+        pastas = Pasta.objects.filter(status=False)
+        arquivos = Arquivo.objects.filter(status=False)
+        for pasta in pastas:
+            pasta.delete()
+
+        for arquivo in arquivos:
+            arquivo.delete()
+
+        messages.success(request, 'Lixeira esvaziada com sucesso')
+    except:
+        messages.error(request, 'Nao foi possivel esvaziar lixeira')
+    return redirect('/lixeira')

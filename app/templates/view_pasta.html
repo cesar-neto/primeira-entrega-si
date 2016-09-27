@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class='row'>
-        <div class='col-xs-6 col-sm-4 col-md-3'>
+        <div class='col-xs-6 col-sm-4 col-md-3' id="criar_arquivo">
             <div class="panel-group" style='border-style: dotted;'>
                 <div class="panel panel-default">
                     <div class="panel-body text-center"><a href='/novo-arquivo'>Criar Novo Arquivo</a></div>
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class='col-xs-6 col-sm-4 col-md-3'>
+        <div class='col-xs-6 col-sm-4 col-md-3' id="upload_arquivo">
             <div class="panel-group" style='border-style: dotted;'>
                 <div class="panel panel-default">
                     <div class="panel-body text-center"><a href='/upload-arquivo'>Upload Novo Arquivo</a></div>
@@ -52,12 +52,12 @@
                             <td>{{ arquivo.tipo }}</td>
                             <td>{{ arquivo.criado_em }}</td>
                             <td>{{ arquivo.editado_em }}</td>
-                            <td><a href='/media/{{ arquivo.arquivo }}' download='/media/{{ arquivo.arquivo }}'><span
+                            <td id="download"><a href='/media/{{ arquivo.arquivo }}' download='/media/{{ arquivo.arquivo }}'><span
                                     class='fa fa-download'></span></a></td>
-                            <td><a href='/edit-arquivo/{{ arquivo.id }}'><span class='fa fa-edit'></span></a></td>
-                            <td><a data-toggle="modal" data-target="#modal{{ arquivo.id }}"><span
+                            <td id="editar"><a href='/edit-arquivo/{{ arquivo.id }}'><span class='fa fa-edit'></span></a></td>
+                            <td id="compartilhar"><a data-toggle="modal" data-target="#modal{{ arquivo.id }}"><span
                                     class='fa fa-share-alt'></span></a></td>
-                            <td><a href='/remove-arquivo/{{ arquivo.id }}'><span class='fa fa-trash'></span></a></td>
+                            <td id="remover"><a href='/remove-arquivo/{{ arquivo.id }}'><span class='fa fa-trash'></span></a></td>
                         </tr>
                         <div id="modal{{ arquivo.id }}" class="modal fade" role="dialog">
                             <form method="post" action="/compartilhar-amigo/{{ arquivo.id }}">{% csrf_token %}
@@ -118,5 +118,78 @@
 
         </div>
     </div>
+    <script>
+            $(document).ready(function () {
+                $('#inicio').addClass('active');
+            });
+            // Instance the tour
+            tour = new Tour({
+                steps: [
+                    {
+                        element: "#criar_arquivo",
+                        title: "Criar nova pasta",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#upload_arquivo",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#download",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#editar",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#compartilhar",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#remover",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#notificacoes",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#logout",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    }
+                ]
+            });
+
+            // Initialize the tour
+            tour.init();
+
+            // Start the tour
+            tour.start();
+        </script>
+
 {% endblock %}
 

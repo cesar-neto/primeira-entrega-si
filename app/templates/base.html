@@ -64,11 +64,17 @@
             z-index: 9999;
         }
     </style>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/css/bootstrap-tour.min.css"/>
 
     <script
             src="https://code.jquery.com/jquery-2.2.4.js"
             integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/js/bootstrap-tour.min.js"></script>
+    <script>
+        var tour;
+    </script>
 </head>
 <body>
 {% include 'menu.html' %}
@@ -114,12 +120,17 @@
     });
 </script>
 <script>
-    try{
+    try {
         var simplemde = new SimpleMDE({element: $("#content")[0]});
-    }catch (e){
+    } catch (e) {
         console.log(e);
     }
 
+    $('document').ready(function () {
+        $('#ajuda').click(function () {
+            tour.restart();
+        });
+    });
 </script>
 </body>
 </html>

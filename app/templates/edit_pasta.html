@@ -7,26 +7,85 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Editar pasta</h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" >
                     <form method='post' action='/edit-pasta/{{ pasta.id }}'>
                         {% csrf_token %}
                         <fieldset>
-                            <div class="form-group">
+                            <div class="form-group" id="nome_pasta">
                                 <label for="">Titulo:</label>
                                 <input class="form-control" placeholder="Insira um titulo" name="titulo" type="text"
                                        maxlength="100" required="true" value="{{ pasta.titulo }}">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="descricao_pasta">
                                 <label for="">Descricao:</label>
                                 <input type="textarea" class="form-control" name="descricao" type="text"
                                 value="{{ pasta.descricao }}"/>
                             </div>
-                            <button class="btn btn-lg btn-success btn-block" type="submit">Alterar</button>
-                            <a class="btn btn-lg btn-warning btn-block" href="/login.html">Voltar</a>
+                            <button class="btn btn-lg btn-success btn-block" type="submit" id="alterar">Alterar</button>
+                            <a class="btn btn-lg btn-warning btn-block" href="/login.html" id="voltar">Voltar</a>
                         </fieldset>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+            $(document).ready(function () {
+                $('#inicio').addClass('active');
+            });
+            // Instance the tour
+            tour = new Tour({
+                steps: [
+                    {
+                        element: "#nome_pasta",
+                        title: "Criar nova pasta",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#descricao_pasta",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+
+                    {
+                        element: "#alterar",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#voltar",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#notificacoes",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#logout",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    }
+                ]
+            });
+
+            // Initialize the tour
+            tour.init();
+
+            // Start the tour
+            tour.start();
+        </script>
 {% endblock %}

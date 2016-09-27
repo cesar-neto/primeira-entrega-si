@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class='row'>
+    <div class='row' id="compartilhados">
         {% for comp in compartilhados_cmg %}
             {% if comp.arquivo.status %}
-                <div class='col-xs-6 col-sm-4 col-md-3'>
+                <div class='col-xs-6 col-sm-4 col-md-3' >
                     <div class="panel-group">
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
@@ -19,14 +19,14 @@
                             </div>
                             <div class="panel-footer">
                                 <div class='row'>
-                                    <div class='col-xs-3 col-xs-offset-3'>
+                                    <div class='col-xs-3 col-xs-offset-3' id="download">
                                         {% if comp.habilitado %}
                                             <a href='/media/{{ comp.arquivo.arquivo }}'
                                                download='/media/{{ comp.arquivo.arquivo }}'><span
                                                     class='fa fa-2x fa-download'></span></a>
                                         {% endif %}
                                     </div>
-                                    <div class='col-xs-3'>
+                                    <div class='col-xs-3' id="editar">
                                         {% if comp.habilitado %}
                                             <a href='/edit-arquivo-compartilhado/{{ comp.arquivo.id }}'><span
                                                     class='fa fa-2x fa-edit'></span></a>
@@ -49,4 +49,41 @@
             $('#notificacoes').addClass('active');
         });
     </script>
+    <script>
+            $(document).ready(function () {
+                $('#inicio').addClass('active');
+            });
+            // Instance the tour
+            tour = new Tour({
+                steps: [
+                    {
+                        element: "#compartilhados",
+                        title: "Criar nova pasta",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#notificacoes",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#logout",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    }
+                ]
+            });
+
+            // Initialize the tour
+            tour.init();
+
+            // Start the tour
+            tour.start();
+        </script>
 {% endblock %}

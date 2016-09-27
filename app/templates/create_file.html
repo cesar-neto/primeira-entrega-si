@@ -8,13 +8,13 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class='row'>
-                                <div class='col-md-4'>
-                                    <div class='form-group'>
+                                <div class='col-md-4'id="nome_arquivo">
+                                    <div class='form-group' >
                                         <label>Nome do Arquivo:</label>
                                         <input class='form-control' name='nome' type='text' required/>
                                     </div>
                                 </div>
-                                <div class='col-md-4'>
+                                <div class='col-md-4' id="pasta_arquivo">
                                     <div class="form-group">
                                         <label for="">Pasta:</label>
                                         <select class='form-control' name='pasta'>
@@ -28,7 +28,7 @@
                                     </div>
                                 </div>
 
-                                <div class='col-md-4'>
+                                <div class='col-md-4' id="tipo_arquivo">
                                     <div class="form-group">
                                         <label for="">Formato:</label>
                                         <select class='form-control' name='tipo' required>
@@ -41,27 +41,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="arquivo">
                         <div class="panel-body">
 
                             <textarea id="content" name="content"></textarea>
                         </div>
                         <div class="panel-footer">
                             <div class='row'>
-                                <div class='col-xs-2'>
+                                <div class='col-xs-2' >
                                     {% if arquivo.pasta %}
-                                        <a class='btn' href='/pasta/{{ arquivo.pasta.id }}'><span
+                                        <a class='btn' href='/pasta/{{ arquivo.pasta.id }}' id="voltar"><span
                                                 class='fa fa-2x fa-chevron-left'></span></a>
                                     {% else %}
-                                        <a class='btn' href='/'><span class='fa fa-2x fa-chevron-left'></span></a>
+                                        <a class='btn' href='/' id="voltar"><span class='fa fa-2x fa-chevron-left' ></span></a>
                                     {% endif %}
 
                                 </div>
-                                <div class='col-xs-2 col-xs-offset-1'>
+                                <div class='col-xs-2 col-xs-offset-1' >
                                     {% if arquivo.pasta %}
-                                        <button type='submit'><span class='fa fa-2x fa-save'></span> Salvar</button>
+                                        <button type='submit' id="salvar"><span class='fa fa-2x fa-save'></span> Salvar</button>
                                     {% else %}
-                                        <button type='submit'><span class='fa fa-2x fa-save'></span> Salvar</button>
+                                        <button type='submit' id="salvar"><span class='fa fa-2x fa-save'></span> Salvar</button>
                                     {% endif %}
                                 </div>
                             </div>
@@ -71,5 +71,76 @@
             </form>
         </div>
     </div>
+    <script>
+            $(document).ready(function () {
+                $('#inicio').addClass('active');
+            });
+            // Instance the tour
+            tour = new Tour({
+                steps: [
+                    {
+                        element: "#nome_arquivo",
+                        title: "Criar nova pasta",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#pasta_arquivo",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#tipo_arquivo",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#arquivo",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#voltar",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#salvar",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#notificacoes",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#logout",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    }
+                ]
+            });
 
+            // Initialize the tour
+            tour.init();
+
+            // Start the tour
+            tour.start();
+        </script>
 {% endblock %}

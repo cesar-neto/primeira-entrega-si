@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class='col-xs-6 col-sm-4 col-md-3'>
-        <div class="panel-group" style='border-style: dotted;'>
+    <div class='col-xs-6 col-sm-4 col-md-3' id="criar_pasta">
+        <div class="panel-group" style='border-style: dotted;' >
             <div class="panel panel-default">
                 <div class="panel-body text-center"><a href='/nova-pasta'>Criar Nova Pasta</a></div>
             </div>
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class='col-xs-6 col-sm-4 col-md-3'>
+    <div class='col-xs-6 col-sm-4 col-md-3' id="criar_arquivo">
         <div class="panel-group" style='border-style: dotted;'>
             <div class="panel panel-default">
                 <div class="panel-body text-center"><a href='/novo-arquivo'>Criar Novo Arquivo</a></div>
@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    <div class='col-xs-6 col-sm-4 col-md-3'>
+    <div class='col-xs-6 col-sm-4 col-md-3' id="upload_arquivo">
         <div class="panel-group" style='border-style: dotted;'>
             <div class="panel panel-default">
                 <div class="panel-body text-center"><a href='/upload-arquivo'>Upload Novo Arquivo</a></div>
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-    <div class='col-xs-6 col-sm-4 col-md-3'>
+    <div class='col-xs-6 col-sm-4 col-md-3' id="lixeira">
         <div class="panel-group" style='border-style: dotted;'>
             <div class="panel panel-default">
                 <div class="panel-body text-center"><a href='/lixeira/{{ pasta.id }}'>Lixeira</a></div>
@@ -57,8 +57,8 @@
 
     <br/>
     <hr/>
-    <div class='row'>
-        <div class='col-xs-6 col-sm-4 col-md-12'>
+    <div class='row' >
+        <div class='col-xs-6 col-sm-4 col-md-12' id="pastas">
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">
@@ -83,7 +83,8 @@
                                             <div class="panel-footer">
                                                 <div class='row'>
                                                     <div class='col-xs-3 col-xs-offset-3'>
-                                                        <a href='/edit-pasta/{{ pasta.id }}'><span class='fa fa-2x fa-edit'></span></a>
+                                                        <a href='/edit-pasta/{{ pasta.id }}'><span
+                                                                class='fa fa-2x fa-edit'></span></a>
                                                     </div>
                                                     <div class='col-xs-3'>
                                                         <a href='/remove-pasta/{{ pasta.id }}'><span
@@ -105,7 +106,7 @@
             </div>
         </div>
     </div>
-    <div class='row'>
+    <div class='row' id="arquivos">
         <div class='col-xs-6 col-sm-4 col-md-12'>
             <div class="panel-group">
                 <div class="panel panel-default">
@@ -135,10 +136,12 @@
                                                                 class='fa fa-2x fa-download'></span></a>
                                                     </div>
                                                     <div class='col-xs-3'>
-                                                        <a href='/edit-arquivo/{{ arquivo.id }}'><span class='fa fa-2x fa-edit'></span></a>
+                                                        <a href='/edit-arquivo/{{ arquivo.id }}'><span
+                                                                class='fa fa-2x fa-edit'></span></a>
                                                     </div>
                                                     <div class='col-xs-3'>
-                                                        <a data-toggle="modal" data-target="#modal{{ arquivo.id }}"><span
+                                                        <a data-toggle="modal"
+                                                           data-target="#modal{{ arquivo.id }}"><span
                                                                 class='fa fa-2x fa-share-alt'></span></a>
                                                     </div>
                                                     <div class='col-xs-3'>
@@ -158,12 +161,14 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <button type="button" class="close"
+                                                            data-dismiss="modal">&times;</button>
                                                     <h4 class="modal-title">Compartilhe com seus amigos!</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="form-group">
-                                                        <input id='input{{ arquivo.id }}' type='text' class='form-control'/>
+                                                        <input id='input{{ arquivo.id }}' type='text'
+                                                               class='form-control'/>
                                                         <script type="text/javascript">
                                                             $(function () {
                                                                 $('#input{{arquivo.id}}').val(location.origin + '/media/{{arquivo.arquivo}}');
@@ -218,5 +223,72 @@
             $(document).ready(function () {
                 $('#inicio').addClass('active');
             });
+            // Instance the tour
+            tour = new Tour({
+                steps: [
+                    {
+                        element: "#criar_pasta",
+                        title: "Criar nova pasta",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#criar_arquivo",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#upload_arquivo",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#lixeira",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#pastas",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#arquivos",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#notificacoes",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    },
+                    {
+                        element: "#logout",
+                        title: "Title of my step",
+                        content: "Content of my step",
+                        placement: 'auto',
+                        backdrop: true
+                    }
+                ]
+            });
+
+            // Initialize the tour
+            tour.init();
+
+            // Start the tour
+            tour.start();
         </script>
 {% endblock %}

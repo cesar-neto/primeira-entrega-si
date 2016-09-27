@@ -19,14 +19,14 @@
         <div id="navbar9" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li id="inicio"><a href="/">Inicio</a></li>
-                <li id="notificacoes"><a href="/notificacoes">Compartilhados <span class="badge">{{ compartilhados|length }}</span></a>
+                <li id="notificacoes"><a href="/notificacoes">Compartilhados <span
+                        class="badge">{{ compartilhados|length }}</span></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Olá, {{ usuario.nome }}</a> </li>
-                <li class="active"><a href="/logout">Sair</a></li>
-
-
+                <li id="ajuda"><a href="#">Ajuda</a></li>
+                <li><a href="#">Olá, {{ usuario.nome }}</a></li>
+                <li class="active" id="logout"><a href="/logout">Sair</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->

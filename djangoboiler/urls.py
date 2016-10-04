@@ -42,9 +42,7 @@ urlpatterns = [
                   url(r'^restpasta/(?P<id>[0-9]+)', views.restaurar_pasta, name='restpasta'),
                   url(r'^upload-arquivo', views.upload_arquivo, name='uploadarquivo'),
                   url(r'^compartilhar-amigo/(?P<id>[0-9]+)', views.compartilhar_amigo, name='compartilhararquivo'),
-                  url(r'^arquivo/(?P<id>[0-9]+)', views.view_file, name='viewfile'),
                   url(r'^limpar-lixeira/', views.limpar_lixeira, name='limparlixeira'),
-
                   url(r'^arquivo_compartilhado/(?P<id>[0-9]+)', views.view_file_compartinhado,
                       name='viewfilecompartilhado'),
                   url(r'^edit-arquivo-compartilhado/(?P<id>[0-9]+)', views.edit_arquivo_compartilhado,

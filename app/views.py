@@ -109,20 +109,7 @@ def view_pasta(request, id):
         return redirect('/')
 
 
-def view_file(request, id):
-    try:
-        usuario = Usuario.objects.get(email=request.session['email'])
-        arquivo = Arquivo.objects.get(id=id)
-        if request.method == 'GET':
-            file = arquivo.arquivo
-            file.open(mode='rb')
-            content = file.readlines()
-            file.close()
-            return render_to_response('view_file.html', {'usuario': usuario, 'arquivo': arquivo, 'content': content,
-                                                         'usuarios': Usuario.objects.all()},
-                                      context_instance=RequestContext(request))
-    except:
-        return redirect('/')
+
 
 #O usuario pode compartilha aquivos com usuarios do mesmo sistema ,  e o compratilhamento poder ser tanto de leitura como e edição.
 def view_file_compartinhado(request, id):

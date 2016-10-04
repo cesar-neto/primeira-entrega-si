@@ -25,7 +25,11 @@
                                             <option disabled selected value> --</option>
                                             {% for pasta in usuario.pastas.all %}
                                                 {% if pasta.status %}
-                                                    <option value='{{ pasta.id }}'>{{ pasta.titulo }}</option>
+                                                    {% if pasta == arquivo.pasta %}
+                                                        <option selected value='{{ pasta.id }}'>{{ pasta.titulo }}</option>
+                                                    {% else %}
+                                                        <option value='{{ pasta.id }}'>{{ pasta.titulo }}</option>
+                                                    {% endif %}
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
